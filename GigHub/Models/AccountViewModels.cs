@@ -64,6 +64,12 @@ namespace GigHub.Models
 
     public class RegisterViewModel
     {
+
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
