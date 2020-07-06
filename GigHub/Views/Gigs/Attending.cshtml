@@ -1,0 +1,40 @@
+﻿@model IEnumerable<GigHub.Models.Gig>
+@{
+    ViewBag.Title = "Attending";
+}
+
+<h2>Attending</h2>
+
+<ul class="gigs" style="margin-top:40px;">
+    @foreach (var Gig in Model)
+    {
+        <li>
+            <div class="date">
+                <div class="month">
+                    @Gig.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @Gig.DateTime.ToString("d ")
+                </div>
+            </div>
+            <div class="details">
+                <span class="artist">
+                    @Gig.Artist.Name
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button data-user-id="@Gig.ArtistId" class="btn btn-link btn-sm pull-right js-togglle-follow">Follow</button>
+
+                    }
+                </span>
+                <span class="genre">
+                    @Gig.Genre.Name
+                </span>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button data-gig-id="@Gig.Id" class="btn btn-default btn-sm pull-right js-togglle-attendance">Going ?</button>
+
+                }
+            </div>
+        </li>
+    }
+</ul>
