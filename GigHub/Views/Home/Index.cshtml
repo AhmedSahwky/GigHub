@@ -18,14 +18,53 @@
            </div>
             <div class="details">
                 <span class="artist">
-                    @Gig.Artist.Name
+                    @Gig.Artist.Name <button data-user-id="@Gig.ArtistId" class="btn btn-link btn-sm pull-right js-togglle-follow">Follow</button>
                 </span>
                 <span class="genre">
                     @Gig.Genre.Name
                 </span>
+                <button data-gig-id="@Gig.Id" class="btn btn-default btn-sm pull-right js-togglle-attendance">Going ?</button>
             </div>
         </li>
     }
 </ul>
+
+@section Scripts{
+    
+    <script>
+
+        $(document).ready(function () {
+
+            $(".js-togglle-attendance").click(function (e) {
+                var button = $(e.target);
+
+                $.post("/api/Attendances", {gigId :button.attr("data-gig-id") })
+                    .done(function () {
+                        button.removeClass("btn-default")
+                            .addClass("btn-info")
+                            .text("Going");
+                    })
+                    .fail(function () {
+                        alert("Something failed!");
+                    });
+            });
+
+
+            $(".js-togglle-follow").click(function (e) {
+                var button = $(e.target);
+
+                $.post("/api/Following", { FolloweeId: button.attr("data-user-id") })
+                    .done(function () {
+
+                        button.text("Following");
+                    })
+                    .fail(function () {
+                        alert("Something failed!");
+                    });
+            });
+
+        });
+    </script>
+    }
 
 
