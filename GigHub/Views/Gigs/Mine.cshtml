@@ -16,6 +16,7 @@
                 <div class="day">
                     @Gig.DateTime.ToString("d ")
                 </div>
+                   
             </div>
             <div class="details">
                 <span class="artist">
@@ -25,7 +26,9 @@
                 <span class="genre">
                     @Gig.Genre.Name
                 </span>
-               
+               <div class="actions">
+                   <a href="@Url.Action("Edit","Gigs",new {Id=Gig.Id })">Edit</a>
+               </div>
             </div>
         </li>
     }
