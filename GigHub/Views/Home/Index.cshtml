@@ -19,6 +19,8 @@
            <div class="details">
                <span class="artist">
                    @Gig.Artist.Name
+
+                  
                    @if (User.Identity.IsAuthenticated)
                    {
                        <button data-user-id="@Gig.ArtistId" class="btn btn-link btn-sm pull-right js-togglle-follow">Follow</button>
