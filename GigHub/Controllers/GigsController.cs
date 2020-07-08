@@ -79,11 +79,10 @@ namespace GigHub.Controllers
                 viewModel.Genres = _context.Genres.ToList();
                 return View("Edit", viewModel);
             }
-            var gig = _context.Gigs
+            var gig = _context.Gigs.Include(g=>g.Attendances.Select(a=>a.Attendee))
                 .Single(g => g.Id == viewModel.Id && g.ArtistId == userid);
-            gig.Venue = viewModel.Venue;
-            gig.DateTime = viewModel.GetDateTime();
-            gig.GenreId = viewModel.Genre;
+            gig.Modify(viewModel.GetDateTime(), viewModel.Venue, viewModel.Genre);
+           
 
             _context.SaveChanges();
             return RedirectToAction("Mine", "Gigs");

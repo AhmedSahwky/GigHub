@@ -1,6 +1,6 @@
 ﻿using GigHub.Models;
 using Microsoft.AspNet.Identity;
-using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 
@@ -19,32 +19,16 @@ namespace GigHub.Api
         public IHttpActionResult Cancel(int Id)
         {
             var userid = User.Identity.GetUserId();
-            var gig = _context.Gigs.Single(g => g.Id == Id && g.ArtistId == userid);
+            var gig = _context.Gigs.Include(g => g.Attendances.Select(a => a.Attendee))
+                .Single(g => g.Id == Id && g.ArtistId == userid);
 
             if (gig.IsCanceled)
                 return NotFound();
 
-            gig.IsCanceled = true;
+            gig.Canceled();
 
-            var notification = new Notification
-            {
-                DateTime = DateTime.Now,
-                Gig = gig,
-                Type = NotificationType.GigCanceld
-            };
-            var attendances = _context.Attendances.Where(a => a.GigId == gig.Id)
-                .Select(a => a.Attendee)
-                .ToList();
-            foreach (var Attendee in attendances)
-            {
-                var usernotification = new UserNotification
-                {
-                    User = Attendee,
-                    Notification = notification
-                };
-                _context.UserNotifications.Add(usernotification);
-            }
             _context.SaveChanges();
+
             return Ok();
         }
     }
