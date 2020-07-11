@@ -36,15 +36,14 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
 <script type="text/x-template" id="notifications-template">
-    <ul>
+    <ul class="notifications">
         <%
         _.each(notifications,function(notification){
         if(notification.type==1){ %>
-        <li><%=notification.gig.artist.name %> has canceled the gig at <%=notification.gig.venue %> at <%=notification.gig.dateTime %></li>
+        <li><span class="highlight"><%=notification.gig.artist.name %></span> has canceled the gig at <%=notification.gig.venue %> at <%= moment(notification.gig.dateTime).format("D MMM HH:mm") %></li>
         <% }
 
         else if(notification.type==2){
@@ -61,13 +60,13 @@
 
         if(notification.originalDateTime !=notification.gig.dateTime){
         changes.push('date/Time');
-        originalvalues.push(notification.originalDateTime);
-        newvalues.push(notification.gig.dateTime);
+        originalvalues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
+        newvalues.push(moment(notification.gig.dateTime).format("D MM HH:mm"));
 
         }
 
-       %>
-         <li><%=notification.gig.artist.name %> has changed the <%= changes.join(' and ')%> of the gig from gig at <%=originalvalues.join('/') %> to <%=newvalues.join('/') %></li>
+        %>
+        <li><span class="highlight"><%=notification.gig.artist.name %> </span> has changed the <%= changes.join(' and ')%> of the gig from gig at <%=originalvalues.join('/') %> to <%=newvalues.join('/') %></li>
 
         <%
 
