@@ -4,6 +4,18 @@
     ViewBag.Title = "Home Page";
 }
 <h1>Upcoming Gigs</h1>
+@using (Html.BeginForm("Search","Gigs"))
+{
+    <div class="form-group">
+        <div id="searchgigs" class="input-group"  >
+            <input type="text" name="SearchTerm" id="SearchTerm" class="form-control" placeholder="Search by artist, genre..." />
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-search"></i>
+            </span>
+        </div>
+    </div>
+
+}
 <ul class="gigs"style="margin-top:40px;">
     @foreach (var Gig in Model)
     {

@@ -26,6 +26,7 @@ namespace GigHub.Models
         public Genre Genre { get; set; }
 
         public ICollection<Attendance> Attendances { get; private set; }
+        public string SearchTerm { get; set; }
 
         public Gig()
         {

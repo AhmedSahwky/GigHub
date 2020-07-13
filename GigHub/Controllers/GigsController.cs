@@ -16,6 +16,13 @@ namespace GigHub.Controllers
             _context = new ApplicationDbContext();
         }
 
+
+        [HttpPost]
+        public ActionResult Search(Gig gig)
+        {
+            return RedirectToAction("Index", "Home", new { SearchTerm = gig.SearchTerm });
+        }
+
         [Authorize]
 
         public ActionResult Create()
@@ -79,10 +86,10 @@ namespace GigHub.Controllers
                 viewModel.Genres = _context.Genres.ToList();
                 return View("Edit", viewModel);
             }
-            var gig = _context.Gigs.Include(g=>g.Attendances.Select(a=>a.Attendee))
+            var gig = _context.Gigs.Include(g => g.Attendances.Select(a => a.Attendee))
                 .Single(g => g.Id == viewModel.Id && g.ArtistId == userid);
             gig.Modify(viewModel.GetDateTime(), viewModel.Venue, viewModel.Genre);
-           
+
 
             _context.SaveChanges();
             return RedirectToAction("Mine", "Gigs");

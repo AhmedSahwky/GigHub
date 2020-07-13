@@ -238,6 +238,10 @@
     <Compile Include="Migrations\202007072151574_AddNotification.Designer.cs">
       <DependentUpon>202007072151574_AddNotification.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007130010177_AddSearchTermProperty.cs" />
+    <Compile Include="Migrations\202007130010177_AddSearchTermProperty.Designer.cs">
+      <DependentUpon>202007130010177_AddSearchTermProperty.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -367,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007072151574_AddNotification.resx">
       <DependentUpon>202007072151574_AddNotification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007130010177_AddSearchTermProperty.resx">
+      <DependentUpon>202007130010177_AddSearchTermProperty.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
