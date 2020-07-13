@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GigHub.Models.Gig>
+﻿@model GigHub.ViewModels.GigViewModel
 
 @{
     ViewBag.Title = "Home Page";
@@ -17,7 +17,7 @@
 
 }
 <ul class="gigs"style="margin-top:40px;">
-    @foreach (var Gig in Model)
+    @foreach (var Gig in Model.Gigs)
     {
         <li>
            <div class="date">
@@ -30,7 +30,11 @@
            </div>
            <div class="details">
                <span class="artist">
-                   @Gig.Artist.Name
+                   <a href="@Url.Action("Details","Gigs",new {Id=Gig.Id })">
+
+                       @Gig.Artist.Name
+                   </a>
+            
 
                   
                    @if (User.Identity.IsAuthenticated)
@@ -44,7 +48,11 @@
                </span>
                @if (User.Identity.IsAuthenticated)
                {
-                   <button data-gig-id="@Gig.Id" class="btn btn-default btn-sm pull-right js-togglle-attendance">Going ?</button>
+                   <button
+                           data-gig-id="@Gig.Id" 
+                           class="btn @(Model.Attendances.Contains(Gig.Id)? 
+                       "btn-info" : "btn-default") 
+                           btn-sm pull-right js-togglle-attendance">Going ?</button>
 
                }
            </div>
@@ -61,15 +69,35 @@
             $(".js-togglle-attendance").click(function (e) {
                 var button = $(e.target);
 
-                $.post("/api/Attendances", {gigId :button.attr("data-gig-id") })
-                    .done(function () {
-                        button.removeClass("btn-default")
-                            .addClass("btn-info")
-                            .text("Going");
+                if (button.hasClass("btn-default")) {
+
+
+                    $.post("/api/Attendances", { gigId: button.attr("data-gig-id") })
+                        .done(function () {
+                            button.removeClass("btn-default")
+                                .addClass("btn-info")
+                                .text("Going");
+                        })
+                        .fail(function () {
+                            alert("Something failed!");
+                        });
+                }
+
+                else {
+                    $.ajax({
+                        url: "/api/Attendances/" + button.attr("data-gig-id"),
+                        method: "DELETE"
                     })
-                    .fail(function () {
-                        alert("Something failed!");
-                    });
+                        .done(function () {
+                            button.removeClass("btn-info")
+                                .addClass("btn-default")
+                                .text("Going?");
+                        })
+                        .fail(function () {
+                            alert("Something Faild")
+                        });
+                }
+
             });
 
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GigHub.Models.Gig>
+﻿@model GigHub.ViewModels.GigViewModel
 @{
     ViewBag.Title = "Attending";
 }
@@ -6,7 +6,7 @@
 <h2>Attending</h2>
 
 <ul class="gigs" style="margin-top:40px;">
-    @foreach (var Gig in Model)
+    @foreach (var Gig in Model.Gigs)
     {
         <li>
             <div class="date">
