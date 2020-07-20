@@ -4,10 +4,10 @@
     ViewBag.Title = "Home Page";
 }
 <h1>Upcoming Gigs</h1>
-@using (Html.BeginForm("Search","Gigs"))
+@using (Html.BeginForm("Search", "Gigs"))
 {
     <div class="form-group">
-        <div id="searchgigs" class="input-group"  >
+        <div id="searchgigs" class="input-group">
             <input type="text" name="SearchTerm" id="SearchTerm" class="form-control" placeholder="Search by artist, genre..." />
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-search"></i>
@@ -16,52 +16,53 @@
     </div>
 
 }
-<ul class="gigs"style="margin-top:40px;">
+<ul class="gigs" style="margin-top:40px;">
     @foreach (var Gig in Model.Gigs)
     {
         <li>
-           <div class="date">
-               <div class="month">
-                   @Gig.DateTime.ToString("MMM")
-               </div>
-               <div class="day">
-                   @Gig.DateTime.ToString("d ")
-               </div>
-           </div>
-           <div class="details">
-               <span class="artist">
-                   <a href="@Url.Action("Details","Gigs",new {Id=Gig.Id })">
+            <div class="date">
+                <div class="month">
+                    @Gig.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @Gig.DateTime.ToString("d ")
+                </div>
+            </div>
+            <div class="details">
+                <span class="artist">
+                    <a href="@Url.Action("Details","Gigs",new {Id=Gig.Id })">
 
-                       @Gig.Artist.Name
-                   </a>
-            
+                        @Gig.Artist.Name
+                    </a>
 
-                  
-                   @if (User.Identity.IsAuthenticated)
-                   {
-                       <button data-user-id="@Gig.ArtistId" class="btn btn-link btn-sm pull-right js-togglle-follow">Follow</button>
 
-                   }
-               </span>
-               <span class="genre">
-                   @Gig.Genre.Name
-               </span>
-               @if (User.Identity.IsAuthenticated)
-               {
-                   <button
-                           data-gig-id="@Gig.Id" 
-                           class="btn @(Model.Attendances.Contains(Gig.Id)? 
-                       "btn-info" : "btn-default") 
-                           btn-sm pull-right js-togglle-attendance">Going ?</button>
 
-               }
-           </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button data-user-id="@Gig.ArtistId" class="btn btn-link btn-sm pull-right js-togglle-follow">Follow</button>
+
+                    }
+                </span>
+                <span class="genre">
+                    @Gig.Genre.Name
+                </span>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button data-gig-id="@Gig.Id"
+                            class="btn @(Model.Attendances.Contains(Gig.Id)?
+                       "btn-info" : "btn-default")
+                           btn-sm pull-right js-togglle-attendance">
+                        Going ?
+                    </button>
+
+                }
+            </div>
         </li>
     }
 </ul>
 
 @section Scripts{
-    
+
     <script>
 
         $(document).ready(function () {
@@ -104,7 +105,7 @@
             $(".js-togglle-follow").click(function (e) {
                 var button = $(e.target);
 
-                $.post("/api/Following", { FolloweeId: button.attr("data-user-id") })
+                $.post("/api/Following", { FolloweeId: button.attr("data-user-id")})
                     .done(function () {
 
                         button.text("Following");
@@ -116,6 +117,4 @@
 
         });
     </script>
-    }
-
-
+}

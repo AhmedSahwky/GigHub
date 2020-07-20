@@ -38,45 +38,45 @@
 
     @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
-<script type="text/x-template" id="notifications-template">
-    <ul class="notifications">
-        <%
-        _.each(notifications,function(notification){
-        if(notification.type==1){ %>
-        <li><span class="highlight"><%=notification.gig.artist.name %></span> has canceled the gig at <%=notification.gig.venue %> at <%= moment(notification.gig.dateTime).format("D MMM HH:mm") %></li>
-        <% }
+    <script type="text/x-template" id="notifications-template">
+        <ul class="notifications">
+            <%
+            _.each(notifications,function(notification){
+            if(notification.type==1){ %>
+            <li><span class="highlight"><%=notification.gig.artist.name %></span> has canceled the gig at <%=notification.gig.venue %> at <%= moment(notification.gig.dateTime).format("D MMM HH:mm") %></li>
+            <% }
 
-        else if(notification.type==2){
-        var changes=[],
-        originalvalues=[],
-        newvalues=[];
+            else if(notification.type==2){
+            var changes=[],
+            originalvalues=[],
+            newvalues=[];
 
-        if(notification.originalvenue !=notification.gig.venue){
-        changes.push('venue');
-        originalvalues.push(notification.originalvenue);
-        newvalues.push(notification.gig.venue);
+            if(notification.originalvenue !=notification.gig.venue){
+            changes.push('venue');
+            originalvalues.push(notification.originalvenue);
+            newvalues.push(notification.gig.venue);
 
-        }
+            }
 
-        if(notification.originalDateTime !=notification.gig.dateTime){
-        changes.push('date/Time');
-        originalvalues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
-        newvalues.push(moment(notification.gig.dateTime).format("D MM HH:mm"));
+            if(notification.originalDateTime !=notification.gig.dateTime){
+            changes.push('date/Time');
+            originalvalues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
+            newvalues.push(moment(notification.gig.dateTime).format("D MM HH:mm"));
 
-        }
+            }
 
-        %>
-        <li><span class="highlight"><%=notification.gig.artist.name %> </span> has changed the <%= changes.join(' and ')%> of the gig from gig at <%=originalvalues.join('/') %> to <%=newvalues.join('/') %></li>
+            %>
+            <li><span class="highlight"><%=notification.gig.artist.name %> </span> has changed the <%= changes.join(' and ')%> of the gig from gig at <%=originalvalues.join('/') %> to <%=newvalues.join('/') %></li>
 
-        <%
+            <%
 
-        }
+            }
 
-        })
+            })
 
-        %>
-    </ul>
-</script>
+            %>
+        </ul>
+    </script>
 
     <script>
         $(document).ready(function () {
@@ -84,7 +84,7 @@
             $.getJSON("/api/notifications", function (notifications) {
                 if (notifications.length == 0)
                     return;
-                
+
                 $(".js-notifications-count")
                     .text(notifications.length)
                     .removeClass("hide");
@@ -96,7 +96,7 @@
                     content: function () {
                         var compiled = _.template($("#notifications-template").html());
                         return compiled({ notifications: notifications });
-                        
+
                     },
                     placement: "bottom"
                 }).on("shown.bs.popover", function () {
@@ -110,7 +110,7 @@
 
             });
 
-           
+
         });
     </script>
 </body>
